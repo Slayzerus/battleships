@@ -1,0 +1,81 @@
+﻿<div class="game-screen">
+    <h3>BattleShips</h3>
+
+    @if (game == null)
+    {
+        <div class="message-box">
+            <div>Welcome Commander</div>
+            <div>Press 'Play' to start the game</div>
+            <button type="button" class="btn btn-success" style="margin-top: 10px;" @onclick="NewGame">Play</button>
+        </div>
+    }
+    else
+    {
+        <BattleShipsBoard Game="game" RefreshGame="RefreshGame" />
+
+        @if (game.IsFinished)
+        {
+            <div class="message-box">
+                <div>Congratulations! You've won! And it only took you @game.AttackCounter.ToString() shots!</div>
+                <div>Press 'Play again' to restart the game</div>
+                <button type="button" class="btn btn-success" style="margin-top: 10px;" @onclick="NewGame">Play again</button>
+            </div>
+        }
+        else if(!string.IsNullOrEmpty(game.LastResultText))
+        {
+            <div class="attack-result-box">
+                <div>@game.LastResultText</div>
+            </div>
+        }
+        else
+        {
+            <div class="attack-result-box">
+                <div>Click on any board space to attack</div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    Game? game = null;
+
+    public void NewGame()
+    {
+        game = new Game(new GameConfig());
+    }
+
+    public void RefreshGame()
+    {
+        StateHasChanged();
+    }
+}
+
+<style>
+    .game-screen {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .message-box {
+        margin-top: 5px;
+        padding: 15px 20px 5px 20px;
+        border: thin solid black;
+        border-radius: 10px;
+        background-color: lightgoldenrodyellow;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .attack-result-box{
+        margin-top: 5px;
+        padding: 10px;
+        border: thin solid black;
+        border-radius: 10px;
+        background-color: lightcoral;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+</style>

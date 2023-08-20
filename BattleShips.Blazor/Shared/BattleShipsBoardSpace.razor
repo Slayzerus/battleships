@@ -1,0 +1,37 @@
+﻿@if(Space != null)
+{
+    <div class="board-space" @onclick="SpaceClicked">
+        @if (Space.IsHit && Space.Ship != null && Space.Ship.IsDestroyed)
+        {            
+            <span>#</span>
+        }
+        else if (Space.IsHit && Space.Ship != null)
+        {
+            <span>X</span>
+        }
+        else if(Space.IsHit)
+        {
+            <span>O</span>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public BoardSpace? Space { get; set; }
+
+    [Parameter]
+    public Game? Game { get; set; }
+
+    [Parameter]
+    public Action? RefreshBoard { get; set; }
+
+    void SpaceClicked()
+    {
+        if (Game != null && Space != null && !Game.IsFinished)
+        {
+            Game.Attack(Space.Address);
+            RefreshBoard?.Invoke();
+        }        
+    }
+}

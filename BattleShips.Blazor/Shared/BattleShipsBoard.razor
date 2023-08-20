@@ -1,0 +1,49 @@
+﻿@if(Game != null)
+{
+    <div class="board">
+        @for (int y = 0; y < Game.Board.SizeX; y++)
+        {
+            <div class="board-row">
+                @for (int x = 0; x < Game.Board.SizeX; x++)
+                {
+                    <BattleShipsBoardSpace Space="Game.Board[x, y]" Game="Game" RefreshBoard="RefreshBoard" />
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Game? Game { get; set; }
+
+    [Parameter]
+    public Action? RefreshGame { get; set; }
+
+    public void RefreshBoard()
+    {
+        StateHasChanged();
+        RefreshGame?.Invoke();
+    }
+}
+
+<style>
+    .board{
+        border: thin solid black;        
+    }
+    .board-row {
+        display: flex;
+    }
+    .board-space {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: lightblue
+    }
+    .board-space:hover {
+        background-color: cornflowerblue
+    }
+</style>
